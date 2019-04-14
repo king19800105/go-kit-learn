@@ -2,8 +2,9 @@ package endpoint
 
 import (
 	"github.com/king19800105/go-kit-learn/demo1/pkg/service"
-	"github.com/go-kit/kit/endpoint"
 	"context"
+	"github.com/go-kit/kit/endpoint"
+	"github.com/king19800105/go-kit-learn/demo1/pkg/entity"
 )
 
 // 请求参数格式
@@ -13,21 +14,24 @@ type CreateRequest struct {
 
 // 响应参数格式
 type CreateResponse struct {
-	Code int   `json:"code"`
-	Err  error `json:"err"`
+	entity.Order
+	err error
 }
 
 // create操作端点
 func makeCreateEndpoint(svc service.OrderService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		// 模拟设置ctx对象
-		ctx = context.WithValue(ctx, "ID", "123456")
 		req := request.(CreateRequest)
-		code, err := svc.Create(ctx, req.OrderId)
+		order, err := svc.Create(ctx, req.OrderId)
 
 		return CreateResponse{
-			Code: code,
-			Err:  err,
+			order,
+			err,
 		}, nil
 	}
+}
+
+// 错误获取
+func (rs CreateResponse) Failed() error {
+	return rs.err
 }

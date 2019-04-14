@@ -2,34 +2,39 @@ package service
 
 import (
 	"context"
-	"log"
 	"github.com/king19800105/go-kit-learn/internal/demo1/msg"
+	"github.com/king19800105/go-kit-learn/demo1/pkg/entity"
 )
 
 // 服务抽象
 type OrderService interface {
-	Create(ctx context.Context, orderId string) (code int, err error)
+	Create(ctx context.Context, orderId string) (entity.Order, error)
 }
 
 // 订单结构
-type orderService struct{}
+type baseOrderService struct{}
 
+// todo... 再加一个delete状态，只返回code，还有使用nop的空结构
+// todo... 添加一个get，返回[]io.Order
+// todo... 添加一个
 // 创建订单
-func (order orderService) Create(ctx context.Context, orderId string) (code int, err error) {
-	// 获取ctx对象
-	val := ctx.Value("ID")
-	log.Println(val)
-
+func (os baseOrderService) Create(ctx context.Context, orderId string) (o entity.Order, err error) {
 	if "" == orderId {
-		return msg.GetCodeErr(msg.JSON_FORMAT_ILLEGAL)
+		return o, msg.GetErr(msg.ORDER_NO_EMPTY)
 	}
 
-	return 0, nil
+	o = entity.Order{
+		Id: "#" + orderId,
+		Source: "APP",
+		IsPay: 1,
+	}
+
+	return o, nil
 }
 
 // 服务对象实例化，并且组装中间件
 func New(middleware []Middleware) OrderService {
-	var svc = getServiceInstance()
+	var svc = getBaseService()
 
 	for _, m := range middleware {
 		svc = m(svc)
@@ -39,6 +44,6 @@ func New(middleware []Middleware) OrderService {
 }
 
 // 获取当前实例
-func getServiceInstance() OrderService {
-	return &orderService{}
+func getBaseService() OrderService {
+	return &baseOrderService{}
 }
