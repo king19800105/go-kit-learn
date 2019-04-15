@@ -1,9 +1,9 @@
 package service
 
 import (
-	"github.com/king19800105/go-kit-learn/demo2/pkg/service"
-	"github.com/king19800105/go-kit-learn/demo2/pkg/endpoint"
-	"github.com/king19800105/go-kit-learn/demo2/pkg/http"
+	"github.com/king19800105/go-kit-learn/demo3/pkg/service"
+	"github.com/king19800105/go-kit-learn/demo3/pkg/endpoint"
+	"github.com/king19800105/go-kit-learn/demo3/pkg/http"
 	kitendpoint "github.com/go-kit/kit/endpoint"
 	nethttp "net/http"
 	kithttp "github.com/go-kit/kit/transport/http"
@@ -43,9 +43,7 @@ func defaultHttpOptions(logger log.Logger, tracer opentracing.Tracer) map[string
 			kithttp.ServerErrorEncoder(http.ErrorEncoder),
 			// 当请求或响应时发生的错误，使用日志捕获，可用MyLog对象来替换
 			kithttp.ServerErrorLogger(logger),
-			// 请求发生前钩子
 			kithttp.ServerBefore(setCtxBeforeRequest),
-			// 请求结束后钩子
 			kithttp.ServerAfter(handlerAfterResponse),
 		},
 	}
@@ -86,7 +84,7 @@ func registerEndpointMiddleware(logger log.Logger) (mw map[string][]kitendpoint.
 		Help:      "Request duration in seconds.",
 		Name:      "request_duration_seconds",
 		Namespace: "example",
-		Subsystem: "order",
+		Subsystem: "mytest",
 	}, []string{"method", "success"})
 
 	mw["Create"] = []kitendpoint.Middleware{
