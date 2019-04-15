@@ -6,7 +6,7 @@
 - 响应：{"code":0,"msg":"success","data":{"orderId":"#112233","source":"APP","isPay":1}}
 
 ### demo2
-- 添加日志中间件、自定义中间件、ok-log日志追踪、请求的before、after使用，以及ctx的使用、进一步封装
+- 添加日志中间件、自定义中间件、ok-log日志追踪、请求的before、after使用，以及ctx的使用、进一步封装结构
 
 ### demo3
 - 编写中...
