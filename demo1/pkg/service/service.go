@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
-	"github.com/king19800105/go-kit-learn/internal/demo1/msg"
 	"github.com/king19800105/go-kit-learn/demo1/pkg/entity"
+	"github.com/king19800105/go-kit-learn/demo1/msg"
 )
 
 // 服务抽象
@@ -20,13 +20,13 @@ type baseOrderService struct{}
 // 创建订单
 func (os baseOrderService) Create(ctx context.Context, orderId string) (o entity.Order, err error) {
 	if "" == orderId {
-		return o, msg.GetErr(msg.ORDER_NO_EMPTY)
+		return o, msg.New(msg.ORDER_NO_EMPTY)
 	}
 
 	o = entity.Order{
-		Id: "#" + orderId,
+		Id:     "#" + orderId,
 		Source: "APP",
-		IsPay: 1,
+		IsPay:  1,
 	}
 
 	return o, nil

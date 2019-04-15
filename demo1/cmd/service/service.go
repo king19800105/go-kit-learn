@@ -8,7 +8,7 @@ import (
 // 服务运行
 func Run() {
 	httpHandler := createService()
-	err := nethttp.ListenAndServe(":8080", httpHandler)
+	err := nethttp.ListenAndServe(":8088", httpHandler)
 
 	if nil != err {
 		log.Println(err)

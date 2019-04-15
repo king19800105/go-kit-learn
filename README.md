@@ -1,9 +1,9 @@
 # go-kit学习
 
 ### demo1
-- 简单web接口实现、基础功能封装、Fail接口错误统一处理
+- 简单web接口实现、基础功能封装、Fail接口错误统一处理，统一响应格式，自定义错误
 - 请求：curl -d '{"orderId": "112233"}' 127.0.0.1:8080/order/create
-- 响应：{"code":0,"err":null}
+- 响应：{"code":0,"msg":"success","data":{"orderId":"#112233","source":"APP","isPay":1}}
 
 ### demo2
 - 添加日志中间件、自定义中间件、ok-log日志追踪、请求的before、after使用，以及ctx的使用、进一步封装
