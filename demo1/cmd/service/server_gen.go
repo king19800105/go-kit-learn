@@ -14,12 +14,13 @@ func createService() nethttp.Handler {
 	svc := service.New(nil)
 	// 创建端点对象
 	eps := endpoint.New(svc, nil)
+	// 设置http服务服务中间件
 	options := defaultHttpOptions()
 	// 端点绑定到http服务上
 	return http.NewHTTPHandler(eps, options)
 }
 
-// 统一格式化错误格式
+// HTTP服务中间件（服务的aop）
 func defaultHttpOptions() map[string][]kithttp.ServerOption {
 	options := map[string][]kithttp.ServerOption{
 		"Create": {
