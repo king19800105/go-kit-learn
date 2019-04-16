@@ -16,8 +16,8 @@ func Run() {
 	tracer := opentracing.GlobalTracer()
 	// 添加日志相关组件
 	httpHandler := createService(logger, tracer)
-	logger.Log("demo2服务启动，服务地址: ", "127.0.0.1:8088")
-	err := nethttp.ListenAndServe(":8088", httpHandler)
+	logger.Log("demo2服务启动，服务地址: ", "127.0.0.1:8089")
+	err := nethttp.ListenAndServe(":8089", httpHandler)
 
 	if nil != err {
 		fmt.Println(err)

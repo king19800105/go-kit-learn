@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/gorilla/handlers"
 	kitendpoint "github.com/go-kit/kit/endpoint"
-	"github.com/king19800105/go-kit-learn/demo3/msg"
+	"github.com/king19800105/go-kit-learn/internal/demo3/msg"
 )
 
 // 统一json返回格式
@@ -66,7 +66,7 @@ func ErrorEncoder(ctx context.Context, err error, w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(err2code(err))
 
-	if err, ok := err.(msg.Demo1Error); ok {
+	if err, ok := err.(msg.Demo3Error); ok {
 		code = err.GetCode()
 	} else {
 		code = -1

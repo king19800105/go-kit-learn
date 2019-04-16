@@ -12,8 +12,8 @@
 
 ### demo3
 - 编写中...
-- GRPC服务端Go语言编写、PHP客户端GRPC编写、以及GPRC封装
-- PHP项目详见：
+- GRPC服务端和客户端编写、以及GPRC封装
+- client启动位置：cmd/grpc_client/main.go
 
 ### demo4
 - 编写中...
@@ -25,7 +25,7 @@
 
 ### demo6
 - 编写中...
-- 使用服务注册发现，使用Dockerfile和docker-compose命令来创建和管理容器
+- 使用服务注册发现，使用Dockerfile和docker-compose命令来创建和管理容器、所有内部请求都通过etcd
 
 ### 其他目录
 - configs: 配置文件目录
@@ -33,3 +33,6 @@
 - internal: 微服务项目的共享和私有代码目录
 - tools: 工具目录，可以从internal目录中导入代码使用
 - 参考：https://github.com/golang-standards/project-layout
+
+### 参考
+- https://gokit.io/examples

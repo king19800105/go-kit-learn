@@ -28,7 +28,7 @@ func createService(logger log.Logger, tracer opentracing.Tracer) nethttp.Handler
 }
 
 // 自定义log，在下面使用
-type MyLog struct {}
+type MyLog struct{}
 
 func (l MyLog) Log(keyvals ...interface{}) error {
 	fmt.Println(keyvals[0], keyvals[1])
@@ -43,7 +43,9 @@ func defaultHttpOptions(logger log.Logger, tracer opentracing.Tracer) map[string
 			kithttp.ServerErrorEncoder(http.ErrorEncoder),
 			// 当请求或响应时发生的错误，使用日志捕获，可用MyLog对象来替换
 			kithttp.ServerErrorLogger(logger),
+			// 请求开始之前钩子
 			kithttp.ServerBefore(setCtxBeforeRequest),
+			// 请求结束之后钩子
 			kithttp.ServerAfter(handlerAfterResponse),
 		},
 	}
@@ -83,8 +85,8 @@ func registerEndpointMiddleware(logger log.Logger) (mw map[string][]kitendpoint.
 	duration := kitprometheus.NewSummaryFrom(prometheus.SummaryOpts{
 		Help:      "Request duration in seconds.",
 		Name:      "request_duration_seconds",
-		Namespace: "example",
-		Subsystem: "mytest",
+		Namespace: "demo3",
+		Subsystem: "demo3",
 	}, []string{"method", "success"})
 
 	mw["Create"] = []kitendpoint.Middleware{

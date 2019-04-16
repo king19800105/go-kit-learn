@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/gorilla/handlers"
 	kitendpoint "github.com/go-kit/kit/endpoint"
-	"github.com/king19800105/go-kit-learn/demo1/msg"
+	"github.com/king19800105/go-kit-learn/internal/demo1/msg"
 )
 
 // 统一json返回格式

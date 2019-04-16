@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"github.com/king19800105/go-kit-learn/demo1/pkg/entity"
-	"github.com/king19800105/go-kit-learn/demo1/msg"
+	"github.com/king19800105/go-kit-learn/internal/demo1/msg"
 )
 
 // 服务抽象
@@ -14,9 +14,6 @@ type OrderService interface {
 // 订单结构
 type baseOrderService struct{}
 
-// todo... 再加一个delete状态，只返回code，还有使用nop的空结构
-// todo... 添加一个get，返回[]io.Order
-// todo... 添加一个
 // 创建订单
 func (os baseOrderService) Create(ctx context.Context, orderId string) (o entity.Order, err error) {
 	if "" == orderId {
