@@ -3,14 +3,14 @@ package main
 import (
 	"google.golang.org/grpc"
 	"log"
-	"github.com/king19800105/go-kit-learn/demo3/pkg/grpc/pb"
+	"github.com/king19800105/go-kit-learn/demo4/pkg/grpc/pb"
 	"context"
 )
 
 // grpc客户端
 func main()  {
 	// 创建链接对象
-	conn, err := grpc.Dial("127.0.0.1:9090", grpc.WithInsecure())
+	conn, err := grpc.Dial("127.0.0.1:9091", grpc.WithInsecure())
 
 	if err != nil {
 		log.Println(err)
@@ -19,7 +19,7 @@ func main()  {
 	// 调用
 	client := pb.NewOrderClient(conn)
 	reply, err := client.Create(context.Background(), &pb.CreateRequest{
-		OrderId: "demo3no",
+		OrderId: "111",
 	})
 
 	if nil == reply || nil != err {
