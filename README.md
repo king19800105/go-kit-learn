@@ -11,7 +11,6 @@
 - 其他同上
 
 ### demo3
-- 编写中...
 - GRPC服务端和客户端编写。并同时兼容http和grpc两种请求方式，以及cmd/service封装和复用
 - grpc模拟客户端请求文件：cmd/grpc_client/main.go
 
