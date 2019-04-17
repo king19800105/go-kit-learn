@@ -12,8 +12,8 @@
 
 ### demo3
 - 编写中...
-- GRPC服务端和客户端编写、以及GPRC封装
-- client启动位置：cmd/grpc_client/main.go
+- GRPC服务端和客户端编写。并同时兼容http和grpc两种请求方式，以及cmd/service封装和复用
+- grpc模拟客户端请求文件：cmd/grpc_client/main.go
 
 ### demo4
 - 编写中...
@@ -25,7 +25,7 @@
 
 ### demo6
 - 编写中...
-- 使用服务注册发现，使用Dockerfile和docker-compose命令来创建和管理容器、所有内部请求都通过etcd
+- 使用etcd服务注册发现，内部服务之间的订阅和发布（Nate）、使用Dockerfile和docker-compose命令来创建和管理容器
 
 ### 其他目录
 - configs: 配置文件目录

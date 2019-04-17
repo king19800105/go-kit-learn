@@ -2,7 +2,7 @@ package main
 
 import "github.com/king19800105/go-kit-learn/demo3/cmd/service"
 
-// 入口
+// grpc运行入库
 func main() {
-	service.Run()
+	service.GRPCRun()
 }

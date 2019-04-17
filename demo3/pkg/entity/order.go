@@ -6,7 +6,7 @@ import "encoding/json"
 type Order struct {
 	Id     string `json:"orderId"`
 	Source string `json:"source"`
-	IsPay  int    `json:"isPay"`
+	IsPay  int32  `json:"isPay"`
 }
 
 // 自动转换

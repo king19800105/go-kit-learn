@@ -13,18 +13,34 @@ import (
 	"fmt"
 	"github.com/opentracing/opentracing-go"
 	"context"
+	kitgrpc "github.com/go-kit/kit/transport/grpc"
+	googlegrpc "google.golang.org/grpc"
 )
 
-// 创建服务
-func createService(logger log.Logger, tracer opentracing.Tracer) nethttp.Handler {
-	// 创建业务对象
-	svc := service.New(registerServiceMiddleware(logger))
-	// 创建端点对象
-	eps := endpoint.New(svc, registerEndpointMiddleware(logger))
+// 创建http服务
+func createHttpService(logger log.Logger, tracer opentracing.Tracer) nethttp.Handler {
+	// 设置基础服务
+	eps := loadBaseService(logger)
 	// 设置http服务服务中间件
 	options := defaultHttpOptions(logger, tracer)
 	// 端点绑定到http服务上
 	return http.NewHTTPHandler(eps, options)
+}
+
+// 创建grpc服务
+func createGRPCService(logger log.Logger, tracer opentracing.Tracer) *googlegrpc.Server {
+	eps := loadBaseService(logger)
+	options := defaultGrpcOptions(logger, tracer)
+
+	return http.NewGRPCHandler(eps, options)
+}
+
+// 加载基础服务，以及中间件
+func loadBaseService(logger log.Logger) endpoint.Endpoints {
+	// 创建业务对象
+	svc := service.New(registerServiceMiddleware(logger))
+	// 创建端点对象
+	return endpoint.New(svc, registerEndpointMiddleware(logger))
 }
 
 // 自定义log，在下面使用
@@ -53,11 +69,24 @@ func defaultHttpOptions(logger log.Logger, tracer opentracing.Tracer) map[string
 	return options
 }
 
+// grpc中间件设置，和http请求中间件设置方式一样
+func defaultGrpcOptions(logger log.Logger, tracer opentracing.Tracer) map[string][]kitgrpc.ServerOption {
+	options := map[string][]kitgrpc.ServerOption{
+		"Create": {
+			// 自定义错误日志对象
+			kitgrpc.ServerErrorLogger(MyLog{}),
+		},
+	}
+
+	return options
+}
+
 // 注册before事件
 func setCtxBeforeRequest(ctx context.Context, req *nethttp.Request) context.Context {
 	fmt.Println("在http请求之前，设置heard头，以及设置ctx对象，在整个生命周期都有效")
 	req.Header.Set("Authorization", "abcdefg")
 	ctx = context.WithValue(ctx, "ctxSet", "myValue")
+
 	return ctx
 }
 

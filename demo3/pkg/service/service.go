@@ -20,8 +20,13 @@ func (os baseOrderService) Create(ctx context.Context, orderId string) (o entity
 	if "" == orderId {
 		return o, msg.New(msg.ORDER_NO_EMPTY)
 	}
+
 	val := ctx.Value("ctxSet")
-	fmt.Println("在服务中获取http请求之前设置的ctx值：" + val.(string))
+
+	if nil != val {
+		fmt.Println("在服务中获取http请求之前设置的ctx值：" + val.(string))
+	}
+
 	o = entity.Order{
 		Id:     "#" + orderId,
 		Source: "APP",

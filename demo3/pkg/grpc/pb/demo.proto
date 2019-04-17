@@ -2,3 +2,20 @@ syntax = "proto3";
 
 package pb;
 
+// 服务定义
+service Order {
+    rpc Create (CreateRequest) returns (CreateReply);
+}
+
+// 请求参数格式
+message CreateRequest {
+    string orderId = 1;
+}
+
+// 响应参数格式
+message CreateReply {
+    string id = 1;
+    string source = 2;
+    int32 isPlay = 3;
+}
+
