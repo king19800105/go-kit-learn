@@ -24,7 +24,7 @@
 
 ### demo6
 - 编写中...
-- 使用etcd服务注册发现，内部服务之间的订阅和发布（Nate）、使用Dockerfile和docker-compose命令来创建和管理容器
+- 使用etcd服务注册发现，内部服务之间的订阅和发布（Nats）、使用Dockerfile和docker-compose命令来创建和管理容器
 
 ### 其他目录
 - configs: 配置文件目录
