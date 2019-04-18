@@ -7,7 +7,7 @@ import (
 	"context"
 )
 
-// grpc客户端
+// grpc客户端(微服务之间的调用，应当封装到服务对象的成员属性上)
 func main()  {
 	// 创建链接对象
 	conn, err := grpc.Dial("127.0.0.1:9090", grpc.WithInsecure())

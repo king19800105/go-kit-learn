@@ -5,10 +5,11 @@ import (
 	"log"
 	"github.com/king19800105/go-kit-learn/demo4/pkg/grpc/pb"
 	"context"
+	"time"
 )
 
-// grpc客户端
-func main()  {
+// grpc客户端(微服务之间的调用，应当封装到服务对象的成员属性上)
+func main() {
 	// 创建链接对象
 	conn, err := grpc.Dial("127.0.0.1:9091", grpc.WithInsecure())
 
@@ -18,7 +19,9 @@ func main()  {
 	}
 	// 调用
 	client := pb.NewOrderClient(conn)
-	reply, err := client.Create(context.Background(), &pb.CreateRequest{
+	// 设置一秒超时
+	ctx, _ := context.WithTimeout(context.Background(), time.Second * 1)
+	reply, err := client.Create(ctx, &pb.CreateRequest{
 		OrderId: "111",
 	})
 

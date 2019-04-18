@@ -15,6 +15,9 @@ import (
 	"context"
 	kitgrpc "github.com/go-kit/kit/transport/grpc"
 	googlegrpc "google.golang.org/grpc"
+	"github.com/juju/ratelimit"
+	"time"
+	"github.com/afex/hystrix-go/hystrix"
 )
 
 // 创建http服务
@@ -111,16 +114,30 @@ func registerServiceMiddleware(logger log.Logger) (mw []service.Middleware) {
 // 端点中间件注册
 func registerEndpointMiddleware(logger log.Logger) (mw map[string][]kitendpoint.Middleware) {
 	mw = map[string][]kitendpoint.Middleware{}
-	duration := kitprometheus.NewSummaryFrom(prometheus.SummaryOpts{
-		Help:      "Request duration in seconds.",
-		Name:      "request_duration_seconds",
-		Namespace: "demo3",
-		Subsystem: "demo3",
-	}, []string{"method", "success"})
-
+	// 监控中间件
+	fieldKeys := []string{"method"}
+	requestCount := kitprometheus.NewCounterFrom(prometheus.CounterOpts{
+		Namespace: "demo4",
+		Subsystem: "order_service",
+		Name:      "request_count",
+		Help:      "Number of requests received.",
+	}, fieldKeys)
+	requestLatency := kitprometheus.NewSummaryFrom(prometheus.SummaryOpts{
+		Namespace: "demo4",
+		Subsystem: "order_service",
+		Name:      "request_latency_microseconds",
+		Help:      "Total duration of requests in microseconds.",
+	}, fieldKeys)
+	// 限流中间件，1秒钟接口并发1次
+	rlbucket := ratelimit.NewBucket(1*time.Second, 1)
+	// 断路器中间件
+	command := "Create Request"
+	hystrix.ConfigureCommand(command, hystrix.CommandConfig{Timeout: 1000})
 	mw["Create"] = []kitendpoint.Middleware{
 		endpoint.LoggingMiddleware(log.With(logger, "method", "Create")),
-		endpoint.InstrumentingMiddleware(duration.With("method", "Create")),
+		endpoint.InstrumentingMiddleware(requestCount, requestLatency),
+		endpoint.RateLimiterMiddleware(rlbucket),
+		endpoint.HystrixMiddleware(command, "Service currently unavailable", logger),
 	}
 	// Add you endpoint middleware here
 

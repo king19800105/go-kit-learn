@@ -6,6 +6,7 @@ import (
 	"github.com/go-kit/kit/log"
 	"os"
 	"net"
+	"github.com/afex/hystrix-go/hystrix"
 )
 
 
@@ -17,6 +18,15 @@ func HTTPRun() {
 	// 添加日志相关组件
 	httpHandler := createHttpService(logger, tracer)
 	logger.Log("demo4服务启动，http服务地址: ", "127.0.0.1:8091")
+	// 开放9000端口给断路器使用
+	hystrixStreamHandler := hystrix.NewStreamHandler()
+	hystrixStreamHandler.Start()
+
+	go func(handler *hystrix.StreamHandler) {
+		var err chan error
+		err <- nethttp.ListenAndServe(net.JoinHostPort("", "9000"), hystrixStreamHandler)
+	}(hystrixStreamHandler)
+
 	err := nethttp.ListenAndServe(":8091", httpHandler)
 
 	if nil != err {
