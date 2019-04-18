@@ -29,7 +29,7 @@
 ### demo6
 - 编写中...
 - 使用etcd服务注册发现，内部服务之间的订阅和发布（Nats）、docker打包管理项目
-- 尝试搭建api监控：http://www.ru-rocker.com/2017/04/02/micro-services-using-go-kit-monitoring-services/
+- 搭建grafana监控，同时监控 Hystrix 和 Prometheus
 
 ### 其他目录
 - configs: 配置文件目录
